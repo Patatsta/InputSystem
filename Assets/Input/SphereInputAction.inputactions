@@ -1,0 +1,54 @@
+{
+    "name": "SphereInputAction",
+    "maps": [
+        {
+            "name": "Sphere",
+            "id": "15306cda-658b-4913-bd8e-6fa59f9dc85d",
+            "actions": [
+                {
+                    "name": "Bounce",
+                    "type": "Button",
+                    "id": "ee5c9145-496c-448d-8300-6c9333333dac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Slider",
+                    "type": "Button",
+                    "id": "5f1fc4a0-3809-43cc-a1fc-c0f8211be1fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "50b4f43b-0758-4107-b14a-14dacd5096c0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bounce",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8118eb7c-ebd5-4c5f-9f86-32492ff74ff4",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slider",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
