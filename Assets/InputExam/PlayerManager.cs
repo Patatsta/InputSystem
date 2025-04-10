@@ -10,7 +10,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Player _player;
     private InteractableZone _interactableZone;
     [SerializeField] Laptop _laptop;
+    [SerializeField] Drone _drone;
     private bool _hacked = false;
+    [SerializeField]
+    private Forklift _forklift;
     public static PlayerManager Instance { get; private set; }
 
     private void Awake()
@@ -31,10 +34,52 @@ public class PlayerManager : MonoBehaviour
         InteractableZone.onZoneExit += ZoneExit;
         _input = new ExamPlayerActions();
         _input.Player.Enable();
-
+        Drone.OnEnterFlightMode += Drone_OnEnterFlightMode;
+        Drone.onExitFlightmode += Drone_onExitFlightmode;
+        Forklift.onDriveModeEntered += EnterDriveMode;
+        Forklift.onDriveModeExited += ExitDriveMode;
 
     }
 
+    private void Drone_OnEnterFlightMode()
+    {
+        _input.Player.Disable();
+        _input.Drone.Enable();
+        _input.Drone.Escape.performed += Escape_performed1;
+
+    }
+
+    private void Drone_onExitFlightmode()
+    {
+        _input.Player.Enable();
+        _input.Drone.Disable();
+        _input.Drone.Escape.performed -= Escape_performed1;
+        
+    }
+
+
+    private void Escape_performed1(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        _drone.ExitFlightMode();
+    }
+
+    private void EnterDriveMode()
+    {
+        _input.Player.Disable();
+        _input.Forklift.Enable();
+        _input.Forklift.Escape.performed += Escape_performed2;
+    }
+
+    private void Escape_performed2(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _forklift.ExitDriveMode();
+    }
+
+    private void ExitDriveMode()
+    {
+        _input.Player.Enable();
+        _input.Forklift.Disable();
+    }
     private void ZoneEnter(InteractableZone zone)
     {
         print("Zone");
@@ -72,8 +117,27 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        var move = _input.Player.Walk.ReadValue<Vector2>();
-        _player.CalcutateMovement(move);
+        if (_input.Player.enabled)
+        {
+            var move = _input.Player.Walk.ReadValue<Vector2>();
+            _player.CalcutateMovement(move);
+        }
+        else if (_input.Drone.enabled && _drone._inFlightMode)
+        {
+            var tilt = _input.Drone.Tilt.ReadValue<Vector2>();
+            _drone.CalculateTilt(tilt);
+            var move = _input.Drone.Move.ReadValue<float>();
+            _drone.CalculateMovementUpdate(move);
+        }
+      
+    }
+    private void FixedUpdate()
+    {
+        if (_input.Drone.enabled && _drone._inFlightMode)
+        {
+            var _direction = _input.Drone.Direction.ReadValue<float>();
+            _drone.CalculateMovementFixedUpdate(_direction);
+        }
     }
     public void OnHacked()
     {

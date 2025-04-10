@@ -13750,6 +13750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 359860633}
   _laptop: {fileID: 816558616}
+  _drone: {fileID: 1073608670}
 --- !u!4 &750810439
 Transform:
   m_ObjectHideFlags: 0
@@ -18279,7 +18280,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972744894}
-  m_LocalRotation: {x: 0.22150683, y: 0.046706066, z: -0.0106220795, w: 0.97398174}
+  m_LocalRotation: {x: 0.22150683, y: 0.04670606, z: -0.010622081, w: 0.97398174}
   m_LocalPosition: {x: -0.48177326, y: 4.5286655, z: -4.833789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20183,6 +20184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1073608672}
   _speed: 5
+  _inFlightMode: 0
   _propAnim: {fileID: 181193216}
   _droneCam: {fileID: 106664337}
   _interactableZone: {fileID: 1810029383}

@@ -40,7 +40,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void ExitDriveMode()
+        public void ExitDriveMode()
         {
             _inDriveMode = false;
             _forkliftCam.Priority = 9;            
@@ -55,7 +55,7 @@ namespace Game.Scripts.LiveObjects
             {
                 LiftControls();
                 CalcutateMovement();
-                if (Input.GetKeyDown(KeyCode.Escape))
+                //if (Input.GetKeyDown(KeyCode.Escape))
                     ExitDriveMode();
             }
 
@@ -63,8 +63,8 @@ namespace Game.Scripts.LiveObjects
 
         private void CalcutateMovement()
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 
@@ -80,10 +80,10 @@ namespace Game.Scripts.LiveObjects
 
         private void LiftControls()
         {
-            if (Input.GetKey(KeyCode.R))
-                LiftUpRoutine();
-            else if (Input.GetKey(KeyCode.T))
-                LiftDownRoutine();
+            //if (Input.GetKey(KeyCode.R))
+            //    LiftUpRoutine();
+            //else if (Input.GetKey(KeyCode.T))
+            //    LiftDownRoutine();
         }
 
         private void LiftUpRoutine()
