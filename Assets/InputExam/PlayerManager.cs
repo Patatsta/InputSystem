@@ -36,9 +36,9 @@ public class PlayerManager : MonoBehaviour
         _input = new ExamPlayerActions();
         _input.Player.Enable();
         Drone.OnEnterFlightMode += Drone_OnEnterFlightMode;
-        Drone.onExitFlightmode += Drone_onExitFlightmode;
-        Forklift.onDriveModeEntered += EnterDriveMode;
-        Forklift.onDriveModeExited += ExitDriveMode;
+        Drone.OnExitFlightMode += Drone_onExitFlightmode;
+        Forklift.OnDriveModeEntered += EnterDriveMode;
+        Forklift.OnDriveModeExited += ExitDriveMode;
 
     }
 
@@ -107,9 +107,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        print("interact");
         if (_interactableZone != null && !_hacked)
         {
-          _interactableZone.Interact_Performed();
+          _interactableZone.Interact_Performed(); 
         }
         else
         {

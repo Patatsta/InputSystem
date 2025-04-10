@@ -28,7 +28,7 @@ namespace Game.Scripts.LiveObjects
         
 
         public static event Action OnEnterFlightMode;
-        public static event Action onExitFlightmode;
+        public static event Action OnExitFlightMode;
 
         private void OnEnable()
         {
@@ -50,7 +50,7 @@ namespace Game.Scripts.LiveObjects
 
         public void ExitFlightMode()
         {
-            onExitFlightmode?.Invoke(); 
+            OnExitFlightMode?.Invoke(); 
             _droneCam.Priority = 9;
             _inFlightMode = false;
             UIManager.Instance.DroneView(false);            
@@ -63,39 +63,39 @@ namespace Game.Scripts.LiveObjects
         }
 
     
-        public void CalculateMovementUpdate(float _move)
+        public void CalculateMovementUpdate(float move)
         {
             var tempRot = transform.localRotation.eulerAngles;
-            tempRot.y += _move *_speed / 3;
+            tempRot.y += move *_speed / 3;
             transform.localRotation = Quaternion.Euler(tempRot);
         }
 
   
-        public void CalculateMovementFixedUpdate(float _direction)
+        public void CalculateMovementFixedUpdate(float direction)
         {
-            _rigidbody.AddForce(transform.up * _direction * _speed, ForceMode.Acceleration);
+            _rigidbody.AddForce(transform.up * direction * _speed, ForceMode.Acceleration);
         }
 
 
-        public void CalculateTilt(Vector2 _tiltInput)
+        public void CalculateTilt(Vector2 tiltInput)
         {
-            if (_tiltInput == Vector2.zero)
+            if (tiltInput == Vector2.zero)
             {
                 transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
             }
-            else if (_tiltInput.x < 0)
+            else if (tiltInput.x < 0)
             {
                 transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 30);
             }
-            else if (_tiltInput.x > 0)
+            else if (tiltInput.x > 0)
             {
                 transform.rotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, -30);
             }
-            else if (_tiltInput.y > 0)
+            else if (tiltInput.y > 0)
             {
                 transform.rotation = Quaternion.Euler(30, transform.localRotation.eulerAngles.y, 0);
             }
-            else if (_tiltInput.y < 0)
+            else if (tiltInput.y < 0)
             {
                 transform.rotation = Quaternion.Euler(-30, transform.localRotation.eulerAngles.y, 0);
             }

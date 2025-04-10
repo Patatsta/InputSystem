@@ -3226,14 +3226,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86c443bd499cba4195e4024731710ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _zoneType: 1
+  _zoneType: 3
   _zoneID: 6
   _requiredID: 5
   _displayMessage: Break the Crate
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 1808342870}
 --- !u!1001 &198573547
 PrefabInstance:
@@ -6990,6 +6989,7 @@ MonoBehaviour:
   _liftSpeed: 1
   _forkliftCam: {fileID: 972744896}
   _driverModel: {fileID: 1509951838}
+  _inDriveMode: 0
   _interactableZone: {fileID: 1277958656}
 --- !u!65 &402105200
 BoxCollider:
@@ -8605,7 +8605,6 @@ MonoBehaviour:
   - {fileID: 758722189}
   _inventoryIcon: {fileID: 21300000, guid: 8e46bcb2f14d4d144b9e4a395b47efa2, type: 3}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 605505802}
 --- !u!4 &482471386 stripped
 Transform:
@@ -10722,7 +10721,6 @@ MonoBehaviour:
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
   _zoneKeyInput: 32
-  _keyState: 0
   _marker: {fileID: 1331263896}
 --- !u!1001 &565131287
 PrefabInstance:
@@ -13751,6 +13749,7 @@ MonoBehaviour:
   _player: {fileID: 359860633}
   _laptop: {fileID: 816558616}
   _drone: {fileID: 1073608670}
+  _forklift: {fileID: 402105197}
 --- !u!4 &750810439
 Transform:
   m_ObjectHideFlags: 0
@@ -18153,7 +18152,6 @@ MonoBehaviour:
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 1578479318}
 --- !u!1 &967188505
 GameObject:
@@ -25128,7 +25126,6 @@ MonoBehaviour:
   - {fileID: 908574055}
   _inventoryIcon: {fileID: 21300000, guid: 81dff3a1ca824714aae965897edd2351, type: 3}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 1583429342}
 --- !u!1001 &1178759240
 PrefabInstance:
@@ -26431,7 +26428,6 @@ MonoBehaviour:
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 1840441541}
 --- !u!4 &1277958657 stripped
 Transform:
@@ -27937,7 +27933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1351297216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27988,14 +27984,14 @@ RectTransform:
   m_GameObject: {fileID: 1351297215}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.50043, y: 0.50043, z: 0.50043}
   m_Children: []
   m_Father: {fileID: 1625874021}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -51, y: 34.5}
+  m_AnchoredPosition: {x: 67, y: -454}
   m_SizeDelta: {x: 1224.5714, y: 98.95758}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1351534806 stripped
@@ -35876,7 +35872,6 @@ MonoBehaviour:
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
   _zoneKeyInput: 101
-  _keyState: 0
   _marker: {fileID: 1041737524}
 --- !u!1001 &1810757429
 PrefabInstance:
@@ -36004,7 +35999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c14085171003ee2478ef40ebd5fcbee8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.558
+      value: -4.43
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c14085171003ee2478ef40ebd5fcbee8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -39622,7 +39617,6 @@ MonoBehaviour:
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
   _zoneKeyInput: 101
-  _keyState: 1
   _marker: {fileID: 55150249}
 --- !u!4 &2030128479 stripped
 Transform:

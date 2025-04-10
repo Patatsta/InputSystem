@@ -20,21 +20,21 @@ namespace Game.Scripts.LiveObjects
         [SerializeField]
         private InteractableZone _interactableZone;
 
-        public static event Action onDriveModeEntered;
-        public static event Action onDriveModeExited;
+        public static event Action OnDriveModeEntered;
+        public static event Action OnDriveModeExited;
 
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += EnterDriveMode;
         }
 
-        private void EnterDriveMode(InteractableZone zone)
+        private void EnterDriveMode(InteractableZone _zone)
         {
-            if (_inDriveMode !=true && zone.GetZoneID() == 5) //Enter ForkLift
+            if (_inDriveMode !=true && _zone.GetZoneID() == 5) //Enter ForkLift
             {
                 _inDriveMode = true;
                 _forkliftCam.Priority = 11;
-                onDriveModeEntered?.Invoke();
+                OnDriveModeEntered?.Invoke();
                 _driverModel.SetActive(true);
                 _interactableZone.CompleteTask(5);
             }
@@ -45,11 +45,9 @@ namespace Game.Scripts.LiveObjects
             _inDriveMode = false;
             _forkliftCam.Priority = 9;            
             _driverModel.SetActive(false);
-            onDriveModeExited?.Invoke();
+            OnDriveModeExited?.Invoke();
             
-        }
-
-        
+        }  
 
         public void CalcutateMovement(Vector2 _drive)
         {

@@ -1,5 +1,7 @@
+﻿using Game.Scripts.LiveObjects;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 
 namespace Game.Scripts.LiveObjects
@@ -17,27 +19,45 @@ namespace Game.Scripts.LiveObjects
 
         private void OnEnable()
         {
-            InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
+            InteractableZone.OnWallBreak += InteractableZone_OnWallBreak;
+            InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        private float _holdStartTime;
+
+        private void InteractableZone_OnWallBreak(InteractableZone zone)
         {
-            
-            if (_isReadyToBreak == false && _brakeOff.Count >0)
+            if (_isReadyToBreak == false && _brakeOff.Count > 0)
             {
+               
                 _wholeCrate.SetActive(false);
                 _brokenCrate.SetActive(true);
                 _isReadyToBreak = true;
             }
-
-            if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
+            else if (zone.GetZoneID() == 6 && _isReadyToBreak)
             {
-                if (_brakeOff.Count > 0)
+             
+                _holdStartTime = Time.time;
+            }
+        }
+
+        private void InteractableZone_onHoldEnded(int zoneID)
+        {      
+            if (zoneID == 6 && _isReadyToBreak)
+            {          
+                float heldTime = Mathf.Clamp(Time.time - _holdStartTime, 0f, 1f);
+                int blocksToBreak = Mathf.Max(1, Mathf.CeilToInt(heldTime / (1f / 3f)));
+                int iterations = Mathf.Min(blocksToBreak, _brakeOff.Count);
+             
+                for (int i = 0; i < iterations; i++)
                 {
+                    Debug.Log("break " + i);
                     BreakPart();
-                    StartCoroutine(PunchDelay());
                 }
-                else if(_brakeOff.Count == 0)
+
+                StartCoroutine(PunchDelay());
+
+                if (_brakeOff.Count == 0)
                 {
                     _isReadyToBreak = false;
                     _crateCollider.enabled = false;
@@ -49,11 +69,8 @@ namespace Game.Scripts.LiveObjects
 
         private void Start()
         {
-            _brakeOff.AddRange(_pieces);
-            
+            _brakeOff.AddRange(_pieces);     
         }
-
-
 
         public void BreakPart()
         {
@@ -77,7 +94,7 @@ namespace Game.Scripts.LiveObjects
 
         private void OnDisable()
         {
-            InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
+            InteractableZone.OnWallBreak -= InteractableZone_OnWallBreak;
         }
     }
 }

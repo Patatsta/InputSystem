@@ -28,13 +28,13 @@ namespace Game.Scripts.Player
         {
           
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
-            Laptop.onHackComplete += ReleasePlayerControl;
-            Laptop.onHackEnded += ReturnPlayerControl;
-            Forklift.onDriveModeEntered += ReleasePlayerControl;
-            Forklift.onDriveModeExited += ReturnPlayerControl;
-            Forklift.onDriveModeEntered += HidePlayer;
+            Laptop.OnHackComplete += ReleasePlayerControl;
+            Laptop.OnHackEnded += ReturnPlayerControl;
+            Forklift.OnDriveModeEntered += ReleasePlayerControl;
+            Forklift.OnDriveModeExited += ReturnPlayerControl;
+            Forklift.OnDriveModeEntered += HidePlayer;
             Drone.OnEnterFlightMode += ReleasePlayerControl;
-            Drone.onExitFlightmode += ReturnPlayerControl;
+            Drone.OnExitFlightMode += ReturnPlayerControl;
         } 
 
         private void Start()
@@ -126,13 +126,13 @@ namespace Game.Scripts.Player
         private void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
-            Laptop.onHackComplete -= ReleasePlayerControl;
-            Laptop.onHackEnded -= ReturnPlayerControl;
-            Forklift.onDriveModeEntered -= ReleasePlayerControl;
-            Forklift.onDriveModeExited -= ReturnPlayerControl;
-            Forklift.onDriveModeEntered -= HidePlayer;
+            Laptop.OnHackComplete -= ReleasePlayerControl;
+            Laptop.OnHackEnded -= ReturnPlayerControl;
+            Forklift.OnDriveModeEntered -= ReleasePlayerControl;
+            Forklift.OnDriveModeExited -= ReturnPlayerControl;
+            Forklift.OnDriveModeEntered -= HidePlayer;
             Drone.OnEnterFlightMode -= ReleasePlayerControl;
-            Drone.onExitFlightmode -= ReturnPlayerControl;
+            Drone.OnExitFlightMode -= ReturnPlayerControl;
         }
 
     }

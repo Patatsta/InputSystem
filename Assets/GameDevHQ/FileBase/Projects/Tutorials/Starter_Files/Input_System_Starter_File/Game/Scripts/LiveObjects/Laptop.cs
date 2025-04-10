@@ -20,8 +20,8 @@ namespace Game.Scripts.LiveObjects
         [SerializeField]
         private InteractableZone _interactableZone;
 
-        public static event Action onHackComplete;
-        public static event Action onHackEnded;
+        public static event Action OnHackComplete;
+        public static event Action OnHackEnded;
 
         private void OnEnable()
         {
@@ -62,7 +62,7 @@ namespace Game.Scripts.LiveObjects
         {
             _hacked = false;
             PlayerManager.Instance.OnNotHacked();
-            onHackEnded?.Invoke();
+            OnHackEnded?.Invoke();
             ResetCameras();
         }
         void ResetCameras()
@@ -79,7 +79,7 @@ namespace Game.Scripts.LiveObjects
             {
                 _progressBar.gameObject.SetActive(true);
                 StartCoroutine(HackingRoutine());
-                onHackComplete?.Invoke();
+                OnHackComplete?.Invoke();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Game.Scripts.LiveObjects
                 StopAllCoroutines();
                 _progressBar.gameObject.SetActive(false);
                 _progressBar.value = 0;
-                onHackEnded?.Invoke();
+                OnHackEnded?.Invoke();
             }
         }
 
