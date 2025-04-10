@@ -4,6 +4,7 @@ using UnityEngine;
 using Game.Scripts.Player;
 using System;
 using Game.Scripts.LiveObjects;
+using System.Runtime.InteropServices;
 public class PlayerManager : MonoBehaviour
 {
     private ExamPlayerActions _input;
@@ -79,6 +80,7 @@ public class PlayerManager : MonoBehaviour
     {
         _input.Player.Enable();
         _input.Forklift.Disable();
+        _input.Forklift.Escape.performed -= Escape_performed2;
     }
     private void ZoneEnter(InteractableZone zone)
     {
@@ -124,10 +126,18 @@ public class PlayerManager : MonoBehaviour
         }
         else if (_input.Drone.enabled && _drone._inFlightMode)
         {
+            
             var tilt = _input.Drone.Tilt.ReadValue<Vector2>();
             _drone.CalculateTilt(tilt);
             var move = _input.Drone.Move.ReadValue<float>();
             _drone.CalculateMovementUpdate(move);
+        }else if (_input.Forklift.enabled && _forklift._inDriveMode)
+        {
+         
+            var drive = _input.Forklift.Drive.ReadValue<Vector2>();
+            _forklift.CalcutateMovement(drive);
+            var lift = _input.Forklift.Lift.ReadValue<float>();
+            _forklift.LiftControls(lift);
         }
       
     }

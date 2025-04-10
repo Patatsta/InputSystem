@@ -323,6 +323,24 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drive"",
+                    ""type"": ""Value"",
+                    ""id"": ""ef443390-4e64-40fa-8026-540c8e84cdbe"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Lift"",
+                    ""type"": ""Value"",
+                    ""id"": ""1914a247-d061-465f-b02c-22a9b65e6d01"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -336,6 +354,94 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
                     ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""ce016e63-ab90-474f-85e9-5d166a51ab0e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drive"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c526ad8c-f986-49c0-b11d-465aa572788d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""68a55812-fb2f-4df2-86db-707a4478fa5d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""cf1b0873-505f-446d-a552-6224c9e1ae63"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""50a365a3-6a24-491c-9917-2daf9917815d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""4813245c-4688-4de4-b998-229f98bab539"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lift"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a6580154-7fae-445d-b64c-7820955faaf7"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""802186fd-09b8-4eeb-87f2-44f2da16aaca"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -356,6 +462,8 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
         // Forklift
         m_Forklift = asset.FindActionMap("Forklift", throwIfNotFound: true);
         m_Forklift_Escape = m_Forklift.FindAction("Escape", throwIfNotFound: true);
+        m_Forklift_Drive = m_Forklift.FindAction("Drive", throwIfNotFound: true);
+        m_Forklift_Lift = m_Forklift.FindAction("Lift", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -522,11 +630,15 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Forklift;
     private IForkliftActions m_ForkliftActionsCallbackInterface;
     private readonly InputAction m_Forklift_Escape;
+    private readonly InputAction m_Forklift_Drive;
+    private readonly InputAction m_Forklift_Lift;
     public struct ForkliftActions
     {
         private @ExamPlayerActions m_Wrapper;
         public ForkliftActions(@ExamPlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Escape => m_Wrapper.m_Forklift_Escape;
+        public InputAction @Drive => m_Wrapper.m_Forklift_Drive;
+        public InputAction @Lift => m_Wrapper.m_Forklift_Lift;
         public InputActionMap Get() { return m_Wrapper.m_Forklift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -539,6 +651,12 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
                 @Escape.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnEscape;
+                @Drive.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnDrive;
+                @Drive.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnDrive;
+                @Drive.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnDrive;
+                @Lift.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnLift;
+                @Lift.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnLift;
+                @Lift.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnLift;
             }
             m_Wrapper.m_ForkliftActionsCallbackInterface = instance;
             if (instance != null)
@@ -546,6 +664,12 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
+                @Drive.started += instance.OnDrive;
+                @Drive.performed += instance.OnDrive;
+                @Drive.canceled += instance.OnDrive;
+                @Lift.started += instance.OnLift;
+                @Lift.performed += instance.OnLift;
+                @Lift.canceled += instance.OnLift;
             }
         }
     }
@@ -566,5 +690,7 @@ public partial class @ExamPlayerActions : IInputActionCollection2, IDisposable
     public interface IForkliftActions
     {
         void OnEscape(InputAction.CallbackContext context);
+        void OnDrive(InputAction.CallbackContext context);
+        void OnLift(InputAction.CallbackContext context);
     }
 }

@@ -46,7 +46,7 @@ namespace Game.Scripts.LiveObjects
         [SerializeField]
         private GameObject _marker;
 
-        private bool _inHoldState = false;
+       
 
         private static int _currentZoneID = 0;
         public static int CurrentZoneID
@@ -78,7 +78,6 @@ namespace Game.Scripts.LiveObjects
 
         }
 
-        
 
         private void OnTriggerEnter(Collider other)
         {
@@ -163,7 +162,7 @@ namespace Game.Scripts.LiveObjects
         {
             print("canceled");
            
-                _inHoldState = false;
+               
                 onHoldEnded?.Invoke(_zoneID);
             
         }
