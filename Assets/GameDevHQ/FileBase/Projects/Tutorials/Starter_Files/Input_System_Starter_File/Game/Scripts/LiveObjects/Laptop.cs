@@ -35,27 +35,36 @@ namespace Game.Scripts.LiveObjects
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    var previous = _activeCamera;
-                    _activeCamera++;
-
-
-                    if (_activeCamera >= _cameras.Length)
-                        _activeCamera = 0;
-
-
-                    _cameras[_activeCamera].Priority = 11;
-                    _cameras[previous].Priority = 9;
+                    
                 }
 
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    _hacked = false;
-                    onHackEnded?.Invoke();
-                    ResetCameras();
+                  
                 }
             }
         }
+        public void CameraSwitch()
+        {
+            var previous = _activeCamera;
+            _activeCamera++;
 
+
+            if (_activeCamera >= _cameras.Length)
+                _activeCamera = 0;
+
+
+            _cameras[_activeCamera].Priority = 11;
+            _cameras[previous].Priority = 9;
+        }
+
+        public void ExitCamera()
+        {
+            _hacked = false;
+            PlayerManager.Instance.OnNotHacked();
+            onHackEnded?.Invoke();
+            ResetCameras();
+        }
         void ResetCameras()
         {
             foreach (var cam in _cameras)
@@ -99,6 +108,7 @@ namespace Game.Scripts.LiveObjects
 
             //successfully hacked
             _hacked = true;
+            PlayerManager.Instance.OnHacked();
             _interactableZone.CompleteTask(3);
 
             //hide progress bar

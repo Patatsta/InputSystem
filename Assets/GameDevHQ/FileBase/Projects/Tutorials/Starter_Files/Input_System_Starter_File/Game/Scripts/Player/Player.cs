@@ -9,7 +9,7 @@ namespace Game.Scripts.Player
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
-        private ExamPlayerActions _input;
+       
         private CharacterController _controller;
         private Animator _anim;
         [SerializeField]
@@ -26,8 +26,7 @@ namespace Game.Scripts.Player
 
         private void OnEnable()
         {
-            _input = new ExamPlayerActions();
-            _input.Player.Enable();
+          
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
             Laptop.onHackComplete += ReleasePlayerControl;
             Laptop.onHackEnded += ReturnPlayerControl;
@@ -53,18 +52,18 @@ namespace Game.Scripts.Player
 
         private void Update()
         {
-            if (_canMove == true)
-                CalcutateMovement();
 
         }
 
-        private void CalcutateMovement()
+        public void CalcutateMovement(Vector2 move)
         {
-            _playerGrounded = _controller.isGrounded;
+            if (!_canMove)
+            {
+                return;
+            }
+
+           _playerGrounded = _controller.isGrounded;
             
-
-            var move = _input.Player.Walk.ReadValue<Vector2>();
-
             float h = (float)move.x;
             float v = (float)move.y;
 

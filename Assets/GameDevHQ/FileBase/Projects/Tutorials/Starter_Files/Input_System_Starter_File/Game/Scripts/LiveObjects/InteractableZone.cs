@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.Scripts.UI;
 
-
 namespace Game.Scripts.LiveObjects
 {
     public class InteractableZone : MonoBehaviour
     {
+        private ExamPlayerActions _input;
+        
         private enum ZoneType
         {
             Collectable,
@@ -65,17 +66,26 @@ namespace Game.Scripts.LiveObjects
         public static event Action<InteractableZone> onZoneInteractionComplete;
         public static event Action<int> onHoldStarted;
         public static event Action<int> onHoldEnded;
+        public static event Action<InteractableZone> onZoneEnter;
+        public static event Action onZoneExit;
 
         private void OnEnable()
         {
+            _input = new ExamPlayerActions();
+            _input.Player.Enable();
+         
             InteractableZone.onZoneInteractionComplete += SetMarker;
 
         }
+
+        
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && _currentZoneID > _requiredID)
             {
+                onZoneEnter?.Invoke(this);
+              
                 switch (_zoneType)
                 {
                     case ZoneType.Collectable:
@@ -120,57 +130,48 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        public void Interact_Performed()
+        {
+            print("pressed");
+            switch (_zoneType)
+            {
+                case ZoneType.Collectable:
+                    if (_itemsCollected == false)
+                    {
+                        CollectItems();
+                        _itemsCollected = true;
+                        UIManager.Instance.DisplayInteractableZoneMessage(false);
+                    }
+                    break;
+
+                case ZoneType.Action:
+                    if (_actionPerformed == false)
+                    {
+                        PerformAction();
+                        _actionPerformed = true;
+                        UIManager.Instance.DisplayInteractableZoneMessage(false);
+                    }
+                    break;
+                
+                case ZoneType.HoldAction:
+                        PerformHoldAction();
+                        break;
+            }
+        }
+ 
+        public void Interact_Canceled()
+        {
+            print("canceled");
+           
+                _inHoldState = false;
+                onHoldEnded?.Invoke(_zoneID);
+            
+        }
+       
+
         private void Update()
         {
-            if (_inZone == true)
-            {
-
-                if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
-                {
-                    //press
-                    switch (_zoneType)
-                    {
-                        case ZoneType.Collectable:
-                            if (_itemsCollected == false)
-                            {
-                                CollectItems();
-                                _itemsCollected = true;
-                                UIManager.Instance.DisplayInteractableZoneMessage(false);
-                            }
-                            break;
-
-                        case ZoneType.Action:
-                            if (_actionPerformed == false)
-                            {
-                                PerformAction();
-                                _actionPerformed = true;
-                                UIManager.Instance.DisplayInteractableZoneMessage(false);
-                            }
-                            break;
-                    }
-                }
-                else if (Input.GetKey(_zoneKeyInput) && _keyState == KeyState.PressHold && _inHoldState == false)
-                {
-                    _inHoldState = true;
-
-                   
-
-                    switch (_zoneType)
-                    {                      
-                        case ZoneType.HoldAction:
-                            PerformHoldAction();
-                            break;           
-                    }
-                }
-
-                if (Input.GetKeyUp(_zoneKeyInput) && _keyState == KeyState.PressHold)
-                {
-                    _inHoldState = false;
-                    onHoldEnded?.Invoke(_zoneID);
-                }
-
-               
-            }
+            
         }
        
         private void CollectItems()
@@ -244,6 +245,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (other.CompareTag("Player"))
             {
+                onZoneExit?.Invoke();
                 _inZone = false;
                 UIManager.Instance.DisplayInteractableZoneMessage(false);
             }
@@ -258,3 +260,52 @@ namespace Game.Scripts.LiveObjects
 }
 
 
+//if (_inZone == true)
+//{
+
+//    if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
+//    {
+//        //press
+//        switch (_zoneType)
+//        {
+//            case ZoneType.Collectable:
+//                if (_itemsCollected == false)
+//                {
+//                    CollectItems();
+//                    _itemsCollected = true;
+//                    UIManager.Instance.DisplayInteractableZoneMessage(false);
+//                }
+//                break;
+
+//            case ZoneType.Action:
+//                if (_actionPerformed == false)
+//                {
+//                    PerformAction();
+//                    _actionPerformed = true;
+//                    UIManager.Instance.DisplayInteractableZoneMessage(false);
+//                }
+//                break;
+//        }
+//    }
+//    else if (Input.GetKey(_zoneKeyInput) && _keyState == KeyState.PressHold && _inHoldState == false)
+//    {
+//        _inHoldState = true;
+
+
+
+//        switch (_zoneType)
+//        {                      
+//            case ZoneType.HoldAction:
+//                PerformHoldAction();
+//                break;           
+//        }
+//    }
+
+//    if (Input.GetKeyUp(_zoneKeyInput) && _keyState == KeyState.PressHold)
+//    {
+//        _inHoldState = false;
+//        onHoldEnded?.Invoke(_zoneID);
+//    }
+
+
+//}
