@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using Game.Scripts.LiveObjects;
 using Cinemachine;
@@ -22,7 +21,8 @@ namespace Game.Scripts.Player
         private CinemachineVirtualCamera _followCam;
         [SerializeField]
         private GameObject _model;
-
+        [SerializeField]
+        private float _rotateSpeed;
 
         private void OnEnable()
         {
@@ -67,7 +67,7 @@ namespace Game.Scripts.Player
             float h = (float)move.x;
             float v = (float)move.y;
 
-            transform.Rotate(transform.up, h);
+            transform.Rotate(transform.up, h * _rotateSpeed);
 
             var direction = transform.forward * v;
             var velocity = direction * _speed;

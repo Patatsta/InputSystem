@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Game.Scripts.UI;
 
@@ -30,23 +28,28 @@ namespace Game.Scripts.LiveObjects
      
         private bool _itemsCollected = false;
         private bool _actionPerformed = false;
+        private bool _isHacked = false;
+        private bool _isBroken = false;
         [SerializeField]
         private Sprite _inventoryIcon;
         [SerializeField]
         private KeyCode _zoneKeyInput;
         [SerializeField]
         private GameObject _marker;
+        
         private static int _currentZoneID = 0;
         public static int CurrentZoneID
         { 
             get 
-            { 
+            {
+                print(_currentZoneID);
                return _currentZoneID; 
             }
             set
             {
-                _currentZoneID = value; 
-                         
+                _currentZoneID = value;
+                print(_currentZoneID);
+
             }
         }
 
@@ -67,6 +70,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (other.CompareTag("Player") && _currentZoneID > _requiredID)
             {
+                
                 onZoneEnter?.Invoke(this);
 
                 switch (_zoneType)
@@ -103,20 +107,24 @@ namespace Game.Scripts.LiveObjects
 
                         if (_displayMessage != null)
                         {
-                            string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
-                            UIManager.Instance.DisplayInteractableZoneMessage(true, message);
+                            if(_isHacked == false)
+                            {
+                                string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                                UIManager.Instance.DisplayInteractableZoneMessage(true, message);
+                            }              
                         }
                         else
                             UIManager.Instance.DisplayInteractableZoneMessage(true, $"Hold the {_zoneKeyInput.ToString()} key to perform action");
                         break;
                 
                     case ZoneType.BreakWall:
-                        if (_actionPerformed == false)
+                        if (_isBroken == false)
                         {
 
                             if (_displayMessage != null)
                             {
-                                string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                                string message = $"Press the {_zoneKeyInput} key to {_displayMessage}.\nHold to perform a stronger punch.";
+
                                 UIManager.Instance.DisplayInteractableZoneMessage(true, message);
                             }
                             else
@@ -134,6 +142,7 @@ namespace Game.Scripts.LiveObjects
             switch (_zoneType)
             {
                 case ZoneType.Collectable:
+                  
                     if (_itemsCollected == false)
                     {
                         CollectItems();
@@ -152,11 +161,13 @@ namespace Game.Scripts.LiveObjects
                     break;
                 
                 case ZoneType.HoldAction:
+                    if(_isHacked == false)
                         PerformHoldAction();
                         break;
                 case ZoneType.BreakWall:
-                    PerformBreakAction();
-                    break;
+                    if(_isBroken == false)  
+                        PerformBreakAction();
+                        break;
             }
         }
  
@@ -228,9 +239,19 @@ namespace Game.Scripts.LiveObjects
 
         public void CompleteTask(int zoneID)
         {
+            if(zoneID == 3)
+            {
+                _isHacked = true;
+            }else if (zoneID == 6)
+            {
+                _isBroken = true;
+            }
             if (zoneID == _zoneID)
             {
+                print(_currentZoneID);
                 _currentZoneID++;
+
+                print(_currentZoneID);
                 onZoneInteractionComplete?.Invoke(this);
             }
         }

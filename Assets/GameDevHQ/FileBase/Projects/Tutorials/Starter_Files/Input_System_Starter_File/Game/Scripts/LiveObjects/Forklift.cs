@@ -23,6 +23,8 @@ namespace Game.Scripts.LiveObjects
         public static event Action OnDriveModeEntered;
         public static event Action OnDriveModeExited;
 
+        [SerializeField]
+        private GameObject _lift_UI;
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += EnterDriveMode;
@@ -32,6 +34,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inDriveMode !=true && _zone.GetZoneID() == 5) //Enter ForkLift
             {
+                _lift_UI.SetActive(true);
                 _inDriveMode = true;
                 _forkliftCam.Priority = 11;
                 OnDriveModeEntered?.Invoke();
@@ -39,9 +42,13 @@ namespace Game.Scripts.LiveObjects
                 _interactableZone.CompleteTask(5);
             }
         }
-
+        private void Start()
+        {
+            _lift_UI.SetActive(false);
+        }
         public void ExitDriveMode()
         {
+            _lift_UI.SetActive(false);
             _inDriveMode = false;
             _forkliftCam.Priority = 9;            
             _driverModel.SetActive(false);

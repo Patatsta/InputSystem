@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
@@ -23,27 +22,19 @@ namespace Game.Scripts.LiveObjects
         public static event Action OnHackComplete;
         public static event Action OnHackEnded;
 
+        [SerializeField] GameObject _controlPanel;
+
         private void OnEnable()
         {
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
         }
 
-        private void Update()
+        private void Start()
         {
-            if (_hacked == true)
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    
-                }
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                  
-                }
-            }
+            _controlPanel.SetActive(false);
         }
+
         public void CameraSwitch()
         {
             var previous = _activeCamera;
@@ -60,8 +51,8 @@ namespace Game.Scripts.LiveObjects
 
         public void ExitCamera()
         {
-            _hacked = false;
-            PlayerManager.Instance.OnNotHacked();
+            _hacked = false;   
+            _controlPanel.SetActive(false);
             OnHackEnded?.Invoke();
             ResetCameras();
         }
@@ -113,6 +104,7 @@ namespace Game.Scripts.LiveObjects
 
             //hide progress bar
             _progressBar.gameObject.SetActive(false);
+            _controlPanel.SetActive(true);
 
             //enable Vcam1
             _cameras[0].Priority = 11;

@@ -1,7 +1,8 @@
-﻿using Game.Scripts.LiveObjects;
+﻿
+using Game.Scripts.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Policy;
+
 using UnityEngine;
 
 namespace Game.Scripts.LiveObjects
@@ -57,8 +58,9 @@ namespace Game.Scripts.LiveObjects
 
                 StartCoroutine(PunchDelay());
 
-                if (_brakeOff.Count == 0)
+                if (_brakeOff.Count <= 0)
                 {
+                    UIManager.Instance.DisplayInteractableZoneMessage(false);
                     _isReadyToBreak = false;
                     _crateCollider.enabled = false;
                     _interactableZone.CompleteTask(6);

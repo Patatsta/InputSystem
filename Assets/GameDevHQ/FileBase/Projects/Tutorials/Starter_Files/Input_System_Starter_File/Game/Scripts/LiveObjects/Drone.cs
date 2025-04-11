@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Game.Scripts.UI;
@@ -25,11 +23,15 @@ namespace Game.Scripts.LiveObjects
         private CinemachineVirtualCamera _droneCam;
         [SerializeField]
         private InteractableZone _interactableZone;
-        
-
+        [SerializeField]
+        private GameObject _drone_UI;
         public static event Action OnEnterFlightMode;
         public static event Action OnExitFlightMode;
 
+        private void Start()
+        {
+            _drone_UI.SetActive(false);
+        }
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += EnterFlightMode;
@@ -39,6 +41,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_inFlightMode != true && zone.GetZoneID() == 4) // drone Scene
             {
+                _drone_UI.SetActive(true);
                 _propAnim.SetTrigger("StartProps");
                 _droneCam.Priority = 11;
                 _inFlightMode = true;
@@ -50,6 +53,7 @@ namespace Game.Scripts.LiveObjects
 
         public void ExitFlightMode()
         {
+            _drone_UI.SetActive(false);
             OnExitFlightMode?.Invoke(); 
             _droneCam.Priority = 9;
             _inFlightMode = false;
